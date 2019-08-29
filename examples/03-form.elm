@@ -98,6 +98,7 @@ mixedCaseValidation model =
   else
     div [style "color" "green"] [ text "オッケー"]
 
+
 -- 数字はいってるかチェック
 digitValidation : Model -> Html msg
 digitValidation model =
