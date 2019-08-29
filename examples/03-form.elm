@@ -62,6 +62,9 @@ view model =
     , viewInput "password" "Password" model.password Password
     , viewInput "password" "Re-enter Password" model.passwordAgain PasswordAgain
     , viewValidation model
+    , pwLengthValidation model
+    , mixedCaseValidation model
+    , digitValidation model
     ]
 
 
@@ -76,3 +79,29 @@ viewValidation model =
     div [ style "color" "green" ] [ text "OK" ]
   else
     div [ style "color" "red" ] [ text "Passwords do not match!" ]
+
+
+-- バリデーション：パスワード8文字以上
+pwLengthValidation : Model -> Html msg
+pwLengthValidation model =
+  if String.length model.password > 8 then
+    div [ style "color" "green"] [ text "Okay"]
+  else
+    div [ style "color" "red"] [text "パスワードは8文字以上にしてください"]
+
+
+-- 大文字と小文字両方含まれてるかチェック
+mixedCaseValidation : Model -> Html msg
+mixedCaseValidation model =
+  if String.toUpper model.password == model.password || String.toLower model.password == model.password then
+    div [style "color" "red"] [ text "パスワードは大文字と小文字まぜて"]
+  else
+    div [style "color" "green"] [ text "オッケー"]
+
+-- 数字はいってるかチェック
+digitValidation : Model -> Html msg
+digitValidation model =
+  if String.any Char.isDigit model.password then
+    div [ style "color" "green"] [text "おっけい"]
+  else
+    div [style "color" "red"] [ text "数字混ぜて"]
